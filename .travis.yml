@@ -135,28 +135,16 @@ jobs:
       osx_image: xcode9.4
       compiler: clang
       cache:
-        ccache: true
         directories:
           - $HOME/Library/Caches/Homebrew
           - /usr/local/Homebrew
-      # Workaround for bug in libopus's opus.h including <opus_multistream.h>
-      # instead of <opus/opus_multistream.h>.
-      # Virtual X (Xvfb) is needed for analyzer waveform tests
-      addons:
-        homebrew:
-          update: true
-          packages:
-            - ccache
       env: >-
         MIXXX_ENVPATH="${HOME}/buildenv"
         CMAKEFLAGS_EXTRA="-DCOREAUDIO=ON -DHSS1394=ON"
-        PATH="/usr/local/opt/ccache/bin:$PATH"
         CMAKE_BUILD_PARALLEL_LEVEL=4
         CTEST_PARALLEL_LEVEL=1
       before_install:
-        # Print some information about CMake and ccache
         - cmake --version
-        - ccache -s
         # Download and prepare our build environment
         - mkdir "${MIXXX_ENVPATH}"
         - read -r MIXXX_ENVNAME < build/osx/golden_environment
@@ -194,11 +182,6 @@ jobs:
         # Run tests and benchmarks
         - ctest --timeout 45
         - cmake --build . --target benchmark
-      before_cache:
-        # Cache only .git files under "/usr/local/Homebrew" so "brew update"
-        # does not take 5min every build
-        # Source: https://discourse.brew.sh/t/best-practice-for-homebrew-on-travis-brew-update-is-5min-to-build-time/5215/12
-        - find /usr/local/Homebrew \! -regex ".+\.git.+" -delete
 
 git:
   depth: 1
