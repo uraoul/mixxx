@@ -187,13 +187,13 @@ void WaveformRendererSignalBase::getGains(float* pAllGain, float* pLowGain,
 
         // Only adjust low/mid/high gains if EQs are enabled.
         if (m_pEQEnabled->get() > 0.0) {
-            if (m_pLowFilterControlObject &&
-                m_pMidFilterControlObject &&
-                m_pHighFilterControlObject) {
-                lowGain = static_cast<CSAMPLE_GAIN>(m_pLowFilterControlObject->get());
-                midGain = static_cast<CSAMPLE_GAIN>(m_pMidFilterControlObject->get());
-                highGain = static_cast<CSAMPLE_GAIN>(m_pHighFilterControlObject->get());
-            }
+            // if (m_pLowFilterControlObject &&
+            //     m_pMidFilterControlObject &&
+            //     m_pHighFilterControlObject) {
+            //     lowGain = static_cast<CSAMPLE_GAIN>(m_pLowFilterControlObject->get());
+            //     midGain = static_cast<CSAMPLE_GAIN>(m_pMidFilterControlObject->get());
+            //     highGain = static_cast<CSAMPLE_GAIN>(m_pHighFilterControlObject->get());
+            // }
 
             lowGain *= static_cast<CSAMPLE_GAIN>(
                     factory->getVisualGain(WaveformWidgetFactory::Low));
